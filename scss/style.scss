@@ -11,7 +11,7 @@ $black: #000 !default;
 $brown: #4e3629 !default;
 $xlbeige: #efece5 !default;
 $beige: #b7b09c !default;
-$lgray: #f8f7f5 !default;
+$lgray: #E2E5E8 !default; //#f8f7f5 !default;
 $gray: #f0f2f3 !default;
 $red: #c00404 !default;
 $white: #fff !default;
@@ -111,6 +111,7 @@ $spacing_md: 24px !default;
     border-bottom: 1px solid $lgray;
     padding: $spacing_sm;
     padding: 16px 0;
+
     @media #{$min_xs} {
       padding: 16px;
     }
@@ -118,6 +119,7 @@ $spacing_md: 24px !default;
     @media #{$min_sm} {
       gap: $spacing_md;
     }
+
     &::before {
       content: none;
     }
@@ -241,18 +243,25 @@ $spacing_md: 24px !default;
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
-      @media #{$min_xl} {
+      @media #{$min_lg} {
         grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      @media #{$min_xl} {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
       }
 
       .profile_listing_item {
         flex-direction: column;
+
         @media #{$min_xs} {
           flex-direction: row;
         }
+
         @media #{$min_sm} {
           flex-direction: column;
         }
+
         @media #{$min_md} {
           align-items: stretch;
           flex-direction: column;
@@ -264,8 +273,9 @@ $spacing_md: 24px !default;
         width: 100%;
 
         @media #{$min_xs} {
-          width: min(150px, 100%);
+          width: min(100px, 100%);
         }
+
         @media #{$min_sm} {
           width: 100%;
         }
@@ -280,14 +290,22 @@ $spacing_md: 24px !default;
   &_list {
     .profile_listing_item {
       flex-direction: column;
+
       @media #{$min_xs} {
         flex-direction: row;
       }
+
       .profile_listing_media {
         width: 100%;
+
         @media #{$min_xs} {
+          width: min(100px, 100%);
+        }
+
+        @media #{$min_sm} {
           width: min(150px, 100%);
         }
+
         .profile_listing_image {
           aspect-ratio: 1;
         }

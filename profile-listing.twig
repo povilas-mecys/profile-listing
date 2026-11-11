@@ -1,46 +1,48 @@
 {#
 /**
  * @file
- * Reusable profile listing for Drupal Single Directory Components (SDC).
+ * Default theme implementation to display a paragraph.
  *
- * Inputs are documented in profile-listing.component.yml. Both layouts use
- * the same profile data and preserve the CSS classes from index.html.
+ * Available variables:
+ * - paragraph: Full paragraph entity.
+ *   Only method names starting with "get", "has", or "is" and a few common
+ *   methods such as "id", "label", and "bundle" are available. For example:
+ *   - paragraph.getCreatedTime() will return the paragraph creation timestamp.
+ *   - paragraph.id(): The paragraph ID.
+ *   - paragraph.bundle(): The type of the paragraph, for example, "image" or "text".
+ *   - paragraph.getOwnerId(): The user ID of the paragraph author.
+ *   See Drupal\paragraphs\Entity\Paragraph for a full list of public properties
+ *   and methods for the paragraph object.
+ * - content: All paragraph items. Use {{ content }} to print them all,
+ *   or print a subset such as {{ content.field_example }}. Use
+ *   {{ content|without('field_example') }} to temporarily suppress the printing
+ *   of a given child element.
+ * - attributes: HTML attributes for the containing element.
+ *   The attributes.class element may contain one or more of the following
+ *   classes:
+ *   - paragraphs: The current template type (also known as a "theming hook").
+ *   - paragraphs--type-[type]: The current paragraphs type. For example, if the paragraph is an
+ *     "Image" it would result in "paragraphs--type--image". Note that the machine
+ *     name will often be in a short form of the human readable label.
+ *   - paragraphs--view-mode--[view_mode]: The View Mode of the paragraph; for example, a
+ *     preview would result in: "paragraphs--view-mode--preview", and
+ *     default: "paragraphs--view-mode--default".
+ * - view_mode: View mode; for example, "preview" or "full".
+ * - logged_in: Flag for authenticated user status. Will be true when the
+ *   current user is a logged-in member.
+ * - is_admin: Flag for admin user status. Will be true when the current user
+ *   is an administrator.
  *
- * Integration:
- * - Place this file and its component.yml in your theme's
- *   components/profile-listing/ directory.
- * - Compile profile-listing.scss to profile-listing.css in that directory;
- *   Drupal automatically attaches the matching component stylesheet.
- * - Supply translated, access-checked data from preprocess or a render builder.
- *   Resolve URLs and image styles there, and retain the source entities' cache
- *   tags, contexts, max-age, and access metadata on the parent render array.
- * - Text props are plain text, not field render arrays or HTML. Do not use raw.
- *   Portraits are decorative because the adjacent heading identifies the person.
- * - attributes is Drupal's optional Attribute object for the section wrapper.
+ * @see template_preprocess_paragraph()
  *
- * Example from a parent Twig template (replace your_theme with its machine name):
- * {{ include('your_theme:profile-listing', {
- *   title: 'New Faculty, 2026–27'|t,
- *   caption: listing_caption,
- *   layout: 'grid',
- *   heading_level: 2,
- *   profiles: profile_items,
- * }, with_context = false) }}
- *
- * Each entry in profile_items has this shape:
- * {
- *   name: 'Serena Booth',
- *   url: '/people/serena-booth',
- *   eyebrow: 'Life and Physical Sciences',
- *   role: 'Assistant Professor of Computer Science',
- *   focus: 'computer science',
- *   image: { src: '/sites/default/files/serena-booth.jpg', width: 600, height: 750 },
- * }
- *
- * Omit url to render an unlinked name and portrait. Optional content is omitted
- * when empty. An empty profiles array renders no component.
+ * @ingroup themeable
  */
 #}
+
+{% import "@brown/partials/macros.twig" as site %}
+{% set id = paragraph.id() %}
+
+ 
 
 {% set listing_layout = layout|default('grid') in ['grid', 'list'] ? layout|default('grid') : 'grid' %}
 {% set listing_heading_level = heading_level|default(2) in [2, 3, 4, 5] ? heading_level|default(2) : 2 %}
@@ -48,6 +50,11 @@
 {% set listing_caption = caption|default('') %}
 {% set listing_profiles = profiles|default([]) %}
 {% set profile_heading_level = listing_title ? listing_heading_level + 1 : listing_heading_level %}
+
+
+
+
+
 
 {% if listing_profiles %}
   {% set listing_attributes = attributes|default(create_attribute()) %}
