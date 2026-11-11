@@ -110,6 +110,11 @@ $spacing_md: 24px !default;
     margin: 0;
     border-bottom: 1px solid $lgray;
     padding: $spacing_sm;
+    padding: 16px 0;
+    @media #{$min_xs} {
+      padding: 16px;
+    }
+
     @media #{$min_sm} {
       gap: $spacing_md;
     }
@@ -275,11 +280,8 @@ $spacing_md: 24px !default;
   &_list {
     .profile_listing_item {
       flex-direction: column;
-      padding: 16px 0;
-
       @media #{$min_xs} {
         flex-direction: row;
-        padding: 16px;
       }
       .profile_listing_media {
         width: 100%;

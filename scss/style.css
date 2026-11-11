@@ -72,6 +72,12 @@
   margin: 0;
   border-bottom: 1px solid #f8f7f5;
   padding: 16px;
+  padding: 16px 0;
+}
+@media screen and (min-width: 320px) {
+  .profile_listing_item {
+    padding: 16px;
+  }
 }
 @media screen and (min-width: 500px) {
   .profile_listing_item {
@@ -230,12 +236,10 @@
 }
 .profile_listing_list .profile_listing_item {
   flex-direction: column;
-  padding: 16px 0;
 }
 @media screen and (min-width: 320px) {
   .profile_listing_list .profile_listing_item {
     flex-direction: row;
-    padding: 16px;
   }
 }
 .profile_listing_list .profile_listing_item .profile_listing_media {
