@@ -1,5 +1,6 @@
 // Standalone defaults and font mixins matching the Brown theme abstracts.
 // Breakpoint defaults match abstracts/variables.scss; loaded theme values take precedence.
+$min_xs: 'screen and (min-width: 320px)' !default;
 $min_sm: 'screen and (min-width: 500px)' !default;
 $min_md: 'screen and (min-width: 740px)' !default;
 $min_lg: 'screen and (min-width: 980px)' !default;
@@ -153,6 +154,8 @@ $spacing_md: 24px !default;
     display: flex;
     flex-direction: column;
     gap: $spacing_xs;
+
+    width: 100%;
   }
 
   &_eyebrow {
@@ -238,7 +241,14 @@ $spacing_md: 24px !default;
       }
 
       .profile_listing_item {
+        flex-direction: column;
+        @media #{$min_xs} {
+          flex-direction: row;
+        }
         @media #{$min_sm} {
+          flex-direction: column;
+        }
+        @media #{$min_md} {
           align-items: stretch;
           flex-direction: column;
           border: 1px solid $lgray;
@@ -246,8 +256,11 @@ $spacing_md: 24px !default;
       }
 
       .profile_listing_media {
-        width: min(150px, 100%);
+        width: 100%;
 
+        @media #{$min_xs} {
+          width: min(150px, 100%);
+        }
         @media #{$min_sm} {
           width: 100%;
         }
@@ -261,9 +274,18 @@ $spacing_md: 24px !default;
 
   &_list {
     .profile_listing_item {
-      .profile_listing_media {
-        width: min(150px, 100%);
+      flex-direction: column;
+      padding: 16px 0;
 
+      @media #{$min_xs} {
+        flex-direction: row;
+        padding: 16px;
+      }
+      .profile_listing_media {
+        width: 100%;
+        @media #{$min_xs} {
+          width: min(150px, 100%);
+        }
         .profile_listing_image {
           aspect-ratio: 1;
         }
