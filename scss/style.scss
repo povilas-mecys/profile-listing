@@ -1,4 +1,4 @@
-// Load the theme abstracts before this component to provide its font mixins.
+// Standalone defaults and font mixins matching the Brown theme abstracts.
 // Breakpoint defaults match abstracts/variables.scss; loaded theme values take precedence.
 $min_sm: 'screen and (min-width: 500px)' !default;
 $min_md: 'screen and (min-width: 740px)' !default;
@@ -23,6 +23,16 @@ $margin_lg: 80px !default;
 $spacing_xs: 8px !default;
 $spacing_sm: 16px !default;
 $spacing_md: 24px !default;
+
+// Font mixins.
+@mixin m($weight: 400) {
+  font-family: minion-pro, serif;
+  font-weight: $weight;
+}
+
+@mixin circular {
+  font-family: 'CircularStd', sans-serif;
+}
 
 .profile_listing {
   display: flex;
@@ -216,7 +226,7 @@ $spacing_md: 24px !default;
 
       @media #{$min_sm} {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: $spacing_md;
+        gap: $spacing_sm;
       }
 
       @media #{$min_md} {
