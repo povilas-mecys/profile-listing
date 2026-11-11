@@ -1,0 +1,263 @@
+// Load the theme abstracts before this component to provide its font mixins.
+// Breakpoint defaults match abstracts/variables.scss; loaded theme values take precedence.
+$min_sm: 'screen and (min-width: 500px)' !default;
+$min_md: 'screen and (min-width: 740px)' !default;
+$min_lg: 'screen and (min-width: 980px)' !default;
+$min_xl: 'screen and (min-width: 1220px)' !default;
+
+// Theme color defaults; existing theme variables take precedence.
+$black: #000 !default;
+$brown: #4e3629 !default;
+$xlbeige: #efece5 !default;
+$beige: #b7b09c !default;
+$lgray: #f8f7f5 !default;
+$gray: #f0f2f3 !default;
+$red: #c00404 !default;
+$white: #fff !default;
+$tgray: #434343 !default;
+
+// Timing and spacing.
+$base_speed: 0.25s !default;
+$margin_sm: 40px !default;
+$margin_lg: 80px !default;
+$spacing_xs: 8px !default;
+$spacing_sm: 16px !default;
+$spacing_md: 24px !default;
+
+.profile_listing {
+  display: flex;
+  flex-direction: column;
+  gap: $margin_sm;
+  margin-block: $margin_sm;
+
+  &_header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing_xs;
+
+    &::before {
+      height: 4px;
+      width: 40px;
+      background: $gray;
+      content: '';
+      display: block;
+    }
+
+    @media #{$min_lg} {
+      padding-inline-start: 40px;
+
+      &::before {
+        width: 30px;
+        position: absolute;
+        top: 20px;
+        left: 0;
+      }
+    }
+  }
+
+  &_title {
+    color: $brown;
+    @include m(700);
+    font-size: 27px;
+    line-height: 1.25;
+    margin: 0;
+
+    @media #{$min_lg} {
+      font-size: 34px;
+    }
+  }
+
+  &_caption {
+    color: $tgray;
+    @include m(400);
+
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.25;
+    margin: 0;
+
+    @media #{$min_md} {
+      font-size: 20px;
+    }
+
+    @media #{$min_lg} {
+      font-size: 24px;
+    }
+  }
+
+  &_items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &_item {
+    align-items: center;
+    display: flex;
+    gap: $spacing_sm;
+    margin: 0;
+    border-bottom: 1px solid $lgray;
+    padding: $spacing_sm;
+    @media #{$min_sm} {
+      gap: $spacing_md;
+    }
+    &::before {
+      content: none;
+    }
+  }
+
+  &_media {
+    width: 100%;
+    position: relative;
+    border: 0;
+    display: block;
+    flex: 0 0 auto;
+
+    &::after {
+      position: absolute;
+      inset: 0;
+      border: 1px solid $white;
+      content: '';
+      pointer-events: none;
+      opacity: 0;
+      transition:
+        inset $base_speed,
+        opacity $base_speed;
+    }
+
+    &[href]:hover::after {
+      inset: $spacing_xs;
+      opacity: 0.5;
+    }
+  }
+
+  &_image {
+    height: auto;
+    width: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  &_info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing_xs;
+  }
+
+  &_eyebrow {
+    color: $tgray;
+    @include circular;
+    font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 1;
+    margin: 0 0 $spacing_xs 0;
+    text-transform: uppercase;
+  }
+
+  &_name {
+    color: $brown;
+    @include m(700);
+    font-size: 22px;
+    line-height: 1.25;
+    margin: 0;
+
+    @media #{$min_md} {
+      font-size: 27px;
+    }
+  }
+
+  &_link {
+    border-bottom: 0;
+    color: $red;
+    text-decoration: underline;
+    text-decoration-color: $xlbeige;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+    transition:
+      color $base_speed,
+      text-decoration-color $base_speed;
+
+    &:hover {
+      color: $black;
+      text-decoration-color: $red;
+    }
+
+    &:active {
+      color: $black;
+      text-decoration-color: $black;
+    }
+  }
+
+  &_role {
+    color: $black;
+    @include circular;
+    font-size: 14px;
+    line-height: 1.25;
+    margin: 0;
+
+    @media #{$min_md} {
+      font-size: 16px;
+    }
+  }
+
+  &_focus {
+    color: $tgray;
+    @include circular;
+    font-size: 12px;
+    line-height: 1.25;
+    margin: $spacing_xs 0 0 0;
+  }
+
+  &_grid {
+    .profile_listing_items {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+
+      @media #{$min_sm} {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: $spacing_md;
+      }
+
+      @media #{$min_md} {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      @media #{$min_xl} {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .profile_listing_item {
+        @media #{$min_sm} {
+          align-items: stretch;
+          flex-direction: column;
+          border: 1px solid $lgray;
+        }
+      }
+
+      .profile_listing_media {
+        width: min(150px, 100%);
+
+        @media #{$min_sm} {
+          width: 100%;
+        }
+
+        .profile_listing_image {
+          aspect-ratio: 4 / 5;
+        }
+      }
+    }
+  }
+
+  &_list {
+    .profile_listing_item {
+      .profile_listing_media {
+        width: min(150px, 100%);
+
+        .profile_listing_image {
+          aspect-ratio: 1;
+        }
+      }
+    }
+  }
+}

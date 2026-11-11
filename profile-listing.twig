@@ -1,0 +1,133 @@
+{#
+/**
+ * @file
+ * Reusable profile listing for Drupal Single Directory Components (SDC).
+ *
+ * Inputs are documented in profile-listing.component.yml. Both layouts use
+ * the same profile data and preserve the CSS classes from index.html.
+ *
+ * Integration:
+ * - Place this file and its component.yml in your theme's
+ *   components/profile-listing/ directory.
+ * - Compile profile-listing.scss to profile-listing.css in that directory;
+ *   Drupal automatically attaches the matching component stylesheet.
+ * - Supply translated, access-checked data from preprocess or a render builder.
+ *   Resolve URLs and image styles there, and retain the source entities' cache
+ *   tags, contexts, max-age, and access metadata on the parent render array.
+ * - Text props are plain text, not field render arrays or HTML. Do not use raw.
+ *   Portraits are decorative because the adjacent heading identifies the person.
+ * - attributes is Drupal's optional Attribute object for the section wrapper.
+ *
+ * Example from a parent Twig template (replace your_theme with its machine name):
+ * {{ include('your_theme:profile-listing', {
+ *   title: 'New Faculty, 2026–27'|t,
+ *   caption: listing_caption,
+ *   layout: 'grid',
+ *   heading_level: 2,
+ *   profiles: profile_items,
+ * }, with_context = false) }}
+ *
+ * Each entry in profile_items has this shape:
+ * {
+ *   name: 'Serena Booth',
+ *   url: '/people/serena-booth',
+ *   eyebrow: 'Life and Physical Sciences',
+ *   role: 'Assistant Professor of Computer Science',
+ *   focus: 'computer science',
+ *   image: { src: '/sites/default/files/serena-booth.jpg', width: 600, height: 750 },
+ * }
+ *
+ * Omit url to render an unlinked name and portrait. Optional content is omitted
+ * when empty. An empty profiles array renders no component.
+ */
+#}
+
+{% set listing_layout = layout|default('grid') in ['grid', 'list'] ? layout|default('grid') : 'grid' %}
+{% set listing_heading_level = heading_level|default(2) in [2, 3, 4, 5] ? heading_level|default(2) : 2 %}
+{% set listing_title = title|default('') %}
+{% set listing_caption = caption|default('') %}
+{% set listing_profiles = profiles|default([]) %}
+{% set profile_heading_level = listing_title ? listing_heading_level + 1 : listing_heading_level %}
+
+{% if listing_profiles %}
+  {% set listing_attributes = attributes|default(create_attribute()) %}
+  {% set listing_classes = [
+    'profile_listing',
+    'profile_listing_' ~ listing_layout,
+    'component-item',
+  ] %}
+
+  <section{{ listing_attributes.addClass(listing_classes) }}>
+    {% if listing_title or listing_caption %}
+      <header class="profile_listing_header">
+        {% if listing_title %}
+          <h{{ listing_heading_level }} class="profile_listing_title">{{ listing_title }}</h{{ listing_heading_level }}>
+        {% endif %}
+
+        {% if listing_caption %}
+          <p class="profile_listing_caption">{{ listing_caption }}</p>
+        {% endif %}
+      </header>
+    {% endif %}
+
+    <ul class="profile_listing_items">
+      {% for profile in listing_profiles %}
+        {% set profile_url = profile.url|default('') %}
+
+        <li class="profile_listing_item">
+          {% if profile.image.src|default('') %}
+            {% set media_attributes = create_attribute({ class: ['profile_listing_media'] }) %}
+            {% set media_tag = profile_url ? 'a' : 'div' %}
+            {% if profile_url %}
+              {% set media_attributes = media_attributes
+                .setAttribute('href', profile_url)
+                .setAttribute('tabindex', '-1')
+                .setAttribute('aria-hidden', 'true')
+              %}
+            {% endif %}
+
+            {% set image_attributes = create_attribute({
+              class: ['profile_listing_image'],
+              src: profile.image.src,
+              alt: '',
+              loading: 'lazy',
+              decoding: 'async',
+            }) %}
+            {% if profile.image.width|default(0) > 0 and profile.image.height|default(0) > 0 %}
+              {% set image_attributes = image_attributes
+                .setAttribute('width', profile.image.width)
+                .setAttribute('height', profile.image.height)
+              %}
+            {% endif %}
+
+            <{{ media_tag }}{{ media_attributes }}>
+              <img{{ image_attributes }}>
+            </{{ media_tag }}>
+          {% endif %}
+
+          <div class="profile_listing_info">
+            {% if profile.eyebrow|default('') %}
+              <p class="profile_listing_eyebrow">{{ profile.eyebrow }}</p>
+            {% endif %}
+
+            <h{{ profile_heading_level }} class="profile_listing_name">
+              {% if profile_url %}
+                <a class="profile_listing_link" href="{{ profile_url }}">{{ profile.name }}</a>
+              {% else %}
+                {{ profile.name }}
+              {% endif %}
+            </h{{ profile_heading_level }}>
+
+            {% if profile.role|default('') %}
+              <p class="profile_listing_role">{{ profile.role }}</p>
+            {% endif %}
+
+            {% if profile.focus|default('') %}
+              <p class="profile_listing_focus">{{ 'Research focus: @focus'|t({ '@focus': profile.focus }) }}</p>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}
