@@ -11,7 +11,7 @@ $black: #000 !default;
 $brown: #4e3629 !default;
 $xlbeige: #efece5 !default;
 $beige: #b7b09c !default;
-$lgray: #E2E5E8 !default; //#f8f7f5 !default;
+$lgray: #f8f7f5 !default;
 $gray: #f0f2f3 !default;
 $red: #c00404 !default;
 $white: #fff !default;
@@ -262,7 +262,7 @@ $spacing_md: 24px !default;
           flex-direction: column;
         }
 
-        @media #{$min_md} {
+        @media #{$min_sm} {
           align-items: stretch;
           flex-direction: column;
           border: 1px solid $lgray;
